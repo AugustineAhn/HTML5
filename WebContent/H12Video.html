@@ -3,6 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>H12Video.html</title>
+
+<script>
+
+	//전역변수: video태그의 DOM을 저장
+	var video;
+	//문서의 로드가 끝난이후 무기명 함수 실행
+	window.onload = function(){
+		var currentSpan = document.getElementById("currenttime");
+		var totalSpan = document.getElementById("totaltime");
+
+		video = document.getElementById("video");
+		/*
+		video에는 timeupdate라는 이벤트를 통해 총재생시간과 실시간 재생정보를
+		얻어올 수 있다. 재생이 될 때 지속적으로 이벤트가 발생된다.
+		*/
+		video.addEventListener("timeupdate", function() {
+			//현재 재생시간 설정
+			currentSpan.innerHTML = video.currentTime;
+			//총 재생시간 설정
+			totalSpan.innerHTML = video.duration;
+		});
+	}
+
+	function play(){
+		//비디오 화면 보임처리
+		video.hidden = "";
+		//재생 시작
+		video.play();
+	}
+
+	function stop(){
+		//일시정지
+		video.pause();
+
+	}
+
+	function start(){
+		//처음부터 다시 재생시작
+		video.currentTime = 0;
+		video.play();
+	}
+</script>
 </head>
 	<body>
 		<h2>기본 Video 태그</h2>
@@ -26,7 +68,7 @@
 				된다.
 		 -->
 		<h2>video의 하위태그 source</h2>
-		<video  autoplay controls width="300" height="200">
+		<!-- <video  autoplay controls width="300" height="200">
 			
 			<source src="media/video.3gp"></source>
 			<source src="media/video.mp4"></source>
@@ -35,9 +77,22 @@
 			해당 브라우저가 video태그를 지원하지 않는경우
 			<a href="media/video.mp4">여기</a>를 클릭하세요.
 		</video>
-		
+	-->
 		
 		<h2>Javascript를 이용한 커스텀 비디오 만들기</h2>
-		Comming Soon~~!!
+
+		<!-- hidden 속성에 의해 첫 로딩시에는 video 환면이 보이지 않음-->
+		<div>
+			<video id="video" width="300" height="200" src="./media/video.mp4"
+				hidden></video>
+
+		</div>
+		<div>
+			<input type="button" value="재생하기" onclick="play();" />
+			<input type="button" value="일시정지" onclick="stop();" />
+			<input type="button" value="처음부터재생하기" onclick="start();" />
+			<span id="currenttime"></span> / <span id="totaltime"></span>
+		</div>
+		
 	</body>
 </html>
